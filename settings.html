@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>cloud.rekord.lexicon settings</title>
+  <link rel="stylesheet" href="sdpi.css">
+  <script src="common.js"></script>
+
+  <style>
+    .sdpi-hidden {
+      display: none;
+    }
+
+    input {
+      padding: 0 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="lexiconSettings" class="sdpi-wrapper sdpi-hidden">
+    <div type="select" class="sdpi-item">
+      <div class="sdpi-item-label">Action</div>
+      <select id="lexiconActionSelect" class="sdpi-item-value select" required onchange="onActionChange()">
+        <optgroup label="Music Player">
+          <option value="MusicPlayer_TogglePlay">Play/pause</option>
+          <option value="MusicPlayer_Pause">Pause</option>
+        </optgroup>
+        <optgroup label="Cues">
+          <option value="MusicPlayer_Hotcue">Hot cue</option>
+        </optgroup>
+      </select>
+    </div>
+    <div type="range" class="sdpi-item sdpi-hidden" id="lexiconIndexRow">
+      <div class="sdpi-item-label">Number</div>
+      <div class="sdpi-item-value range">
+        <input id="lexiconIndexInput" type="number" min="1" max="24" step="1" value="0" oninput="onActionChange()">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var pluginAction = null
+    var uuid = ''
+
+    if ($SD) {
+      $SD.on('connected', function (jsonObj) {
+        document.querySelector('#lexiconSettings').classList.remove('sdpi-hidden')
+
+        uuid = jsonObj['uuid']
+
+        const action = jsonObj.actionInfo.payload.settings.action
+        const index = jsonObj.actionInfo.payload.settings.index
+
+        renderOptions(action)
+
+        document.querySelector('#lexiconActionSelect').value = action
+        document.querySelector('#lexiconIndexInput').value = index
+
+        if (jsonObj.hasOwnProperty('actionInfo')) {
+          pluginAction = jsonObj.actionInfo['action']
+        }
+      })
+    }
+
+    function onActionChange() {
+      const actionEl = document.querySelector('#lexiconActionSelect')
+      const indexEl = document.querySelector('#lexiconIndexInput')
+
+      const action = actionEl.value
+      const index = Number(indexEl.value)
+
+      renderOptions(action)
+
+      if ($SD && $SD.connection) {
+        var payload = {
+          action,
+          index
+        }
+
+        $SD.api.sendToPlugin(uuid, pluginAction, payload)
+      }
+    }
+
+    function renderOptions(action) {
+      if (['MusicPlayer_Hotcue'].includes(action)) {
+        document.querySelector('#lexiconIndexRow').classList.remove('sdpi-hidden')
+      } else {
+        document.querySelector('#lexiconIndexRow').classList.add('sdpi-hidden')
+      }
+    }
+  </script>
+
+</body>
+
+</html>

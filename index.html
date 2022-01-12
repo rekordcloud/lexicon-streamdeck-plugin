@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>cloud.rekord.lexicon</title>
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <script>
+    var API_URL = 'http://localhost:48624/v1/control'
+    var websocket = null
+    var pluginUUID = null
+    var settingsCache = {}
+    var DestinationEnum = Object.freeze({ "HARDWARE_AND_SOFTWARE": 0, "HARDWARE_ONLY": 1, "SOFTWARE_ONLY": 2 })
+
+    var lexiconAction = {
+      type: "cloud.rekord.lexicon.action",
+
+      onKeyDown: function (context, settings, coordinates, userDesiredState) {
+        if (settingsCache.action) {
+          const index = (settingsCache.index || 0)  - 1 // Zero based in Lexicon
+
+          const body = {
+            action: settingsCache.action,
+            parameters: {
+              index
+            }
+          }
+
+          fetch(API_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+          }).catch(console.error)
+        } else {
+          console.log('no action set')
+        }
+      },
+
+      onKeyUp: function (context, settings, coordinates, userDesiredState) {
+
+      },
+
+      onWillAppear: function (context, settings, coordinates) {
+        lexiconAction.SetSettings(context, settings)
+      },
+
+      SetSettings: function (context, settings) {
+        var json = {
+          "event": "setSettings",
+          "context": context,
+          "payload": settings
+        }
+
+        for (var key in settings) {
+          settingsCache[key] = settings[key]
+        }
+
+        websocket.send(JSON.stringify(json))
+      }
+    }
+
+    function connectElgatoStreamDeckSocket(inPort, inPluginUUID, inRegisterEvent, inInfo) {
+      pluginUUID = inPluginUUID
+
+      // Open the web socket
+      websocket = new WebSocket("ws://localhost:" + inPort)
+
+      function registerPlugin(inPluginUUID) {
+        var json = {
+          "event": inRegisterEvent,
+          "uuid": inPluginUUID
+        }
+
+        websocket.send(JSON.stringify(json))
+      }
+
+      websocket.onopen = function () {
+        registerPlugin(pluginUUID)
+      }
+
+      websocket.onmessage = function (evt) {
+        var jsonObj = JSON.parse(evt.data)
+        var event = jsonObj['event']
+        var action = jsonObj['action']
+        var context = jsonObj['context']
+        var jsonPayload = jsonObj['payload'] || {}
+console.log(jsonObj)
+        if (event == "keyDown") {
+          var settings = jsonPayload['settings']
+          var coordinates = jsonPayload['coordinates']
+          var userDesiredState = jsonPayload['userDesiredState']
+          lexiconAction.onKeyDown(context, settings, coordinates, userDesiredState)
+        }
+        else if (event == "willAppear") {
+          var settings = jsonPayload['settings']
+          var coordinates = jsonPayload['coordinates']
+          lexiconAction.onWillAppear(context, settings, coordinates)
+        }
+        else if (event == "sendToPlugin") {
+          lexiconAction.SetSettings(context, jsonPayload)
+        }
+      }
+
+      websocket.onclose = function () { }
+    }
+  </script>
+
+</body>
+
+</html>
