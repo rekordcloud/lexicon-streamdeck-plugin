@@ -22,22 +22,133 @@
   <div id="lexiconSettings" class="sdpi-wrapper sdpi-hidden">
     <div type="select" class="sdpi-item">
       <div class="sdpi-item-label">Action</div>
-      <select id="lexiconActionSelect" class="sdpi-item-value select" required onchange="onActionChange()">
+      <select id="lexiconActionSelect" class="sdpi-item-value select" required onchange="onInputChange()">
+        <optgroup label="Application">
+          <option value="Application_OpenSettings">Open Settings</option>
+          <option value="Application_OpenHelp">Open Help</option>
+          <option value="Application_ToggleWindow">Toggle Window</option>
+        </optgroup>
+        <optgroup label="Navigation">
+          <option value="Navigation_ToggleSidebar">Toggle Sidebar</option>
+          <option value="Navigation_OpenPanelCues">Open Cues Panel</option>
+          <option value="Navigation_OpenPanelGrid">Open Grid Panel</option>
+          <option value="Navigation_OpenPanelJump">Open Jump Panel</option>
+          <option value="Navigation_ExpandPlaylists">Expand Playlists</option>
+          <option value="Navigation_CollapsePlaylists">Collapse Playlists</option>
+          <option value="Navigation_SelectCurrentPlaying">Select Current Playing</option>
+        </optgroup>
+        <optgroup label="Editing">
+          <option value="Application_OpenEditor">Open Editor</option>
+          <option value="Application_OpenTags">Open Tags</option>
+          <option value="Application_SetRating">Set Rating</option>
+          <option value="Application_SetColor">Set Color</option>
+          <option value="Application_SetEnergy">Set Energy</option>
+          <option value="Application_SetDanceability">Set Danceability</option>
+          <option value="Application_SetPopularity">Set Popularity</option>
+          <option value="Application_SetHappiness">Set Happiness</option>
+        </optgroup>
         <optgroup label="Music Player">
-          <option value="MusicPlayer_TogglePlay">Play/pause</option>
+          <option value="MusicPlayer_Play">Play</option>
+          <option value="MusicPlayer_Next">Next</option>
           <option value="MusicPlayer_Pause">Pause</option>
+          <option value="MusicPlayer_Previous">Previous</option>
+          <option value="MusicPlayer_TogglePlay">Play/Pause</option>
+          <option value="MusicPlayer_Eject">Eject</option>
+          <option value="MusicPlayer_ToggleQuantize">Toggle quantize</option>
         </optgroup>
         <optgroup label="Cues">
-          <option value="MusicPlayer_Hotcue">Hot cue</option>
+          <option value="MusicPlayer_Cue">Cue</option>
+          <option value="MusicPlayer_CuePlay">Cue Play</option>
+          <option value="MusicPlayer_DeleteHotcue">Delete Hotcue</option>
+          <option value="MusicPlayer_CreateHotcue">Create Hotcue</option>
+          <option value="MusicPlayer_Hotcue">Hotcue</option>
+        </optgroup>
+        <optgroup label="Beatgrid">
+          <option value="MusicPlayer_TempomarkerSet">Move marker to current position</option>
+          <option value="MusicPlayer_TempomarkerFind">Jump to next marker</option>
+          <option value="MusicPlayer_TempomarkerAdd">Add marker at current position</option>
+          <option value="MusicPlayer_TempomarkerRemove">Delete current marker</option>
+          <option value="MusicPlayer_TempomarkerDoubleBpm">Double current marker BPM</option>
+          <option value="MusicPlayer_TempomarkerHalveBpm">Halve current marker BPM</option>
+          <option value="MusicPlayer_TempomarkerMoveGridLeft">Move current marker left</option>
+          <option value="MusicPlayer_TempomarkerMoveGridRight">Move current marker right</option>
+          <option value="MusicPlayer_TempomarkerIncreaseBpm">Increase current marker BPM</option>
+          <option value="MusicPlayer_TempomarkerDecreaseBpm">Decrease current marker BPM</option>
+          <option value="MusicPlayer_ToggleMetronome">Toggle metronome</option>
+        </optgroup>
+        <optgroup label="Track Jump">
+          <option value="MusicPlayer_JumpBeats">Jump forward/backward</option>
+          <option value="MusicPlayer_JumpEnd">Jump to end</option>
+        </optgroup>
+        <optgroup label="Cue Templates">
+          <option value="Application_ApplyCuepointGeneratorTemplate">Apply generator template</option>
+          <option value="MusicPlayer_ApplyCueTemplate">Apply cue template</option>
+        </optgroup>
+        <optgroup label="Incoming Tracks">
+          <option value="Incoming_SelectedDone">Mark selected done</option>
+        </optgroup>
+        <optgroup label="Cloud Storage">
+          <option value="CloudFileBackup_UploadSelected">Upload selected tracks</option>
         </optgroup>
       </select>
     </div>
+
     <div type="range" class="sdpi-item sdpi-hidden" id="lexiconIndexRow">
       <div class="sdpi-item-label">Number</div>
-      <div class="sdpi-item-value range">
-        <input id="lexiconIndexInput" type="number" min="1" max="24" step="1" value="0" oninput="onActionChange()">
+      <div class="sdpi-item-value">
+        <input id="lexiconIndexInput" type="number" min="1" max="24" step="1" value="0" oninput="onInputChange()">
       </div>
     </div>
+
+    <div type="range" class="sdpi-item sdpi-hidden" id="lexiconAmountRow">
+      <div class="sdpi-item-label">Amount</div>
+      <div class="sdpi-item-value">
+        <input id="lexiconAmountInput" placeholder="0, 1, 2, etc" type="number" min="0" step="1" value="0" oninput="onInputChange()">
+      </div>
+    </div>
+
+    <div type="range" class="sdpi-item sdpi-hidden" id="lexiconBeatsRow">
+      <div class="sdpi-item-label">Beats</div>
+      <div class="sdpi-item-value">
+        <input id="lexiconBeatsInput" placeholder="E.g. 128 or -64" type="number" min="0" step="8" value="0" oninput="onInputChange()">
+      </div>
+    </div>
+
+    <div type="select" class="sdpi-item" id="lexiconColorRow">
+      <div class="sdpi-item-label">Action</div>
+      <select id="lexiconColorInput" class="sdpi-item-value select" required onchange="onInputChange()">
+        <option value="null">No Color</option>
+        <option value="red_dark">Red Dark</option>
+        <option value="red">Red</option>
+        <option value="red_light">Red Light</option>
+        <option value="red_orange">Red Orange</option>
+        <option value="orange">Orange</option>
+        <option value="beige">Beige</option>
+        <option value="yellow_dark">Yellow Dark</option>
+        <option value="yellow">Yellow</option>
+        <option value="lime">Lime</option>
+        <option value="green_light">Green Light</option>
+        <option value="green">Green</option>
+        <option value="green_dark">Green Dark</option>
+        <option value="teal">Teal</option>
+        <option value="aqua">Aqua</option>
+        <option value="aqua_dark">Aqua Dark</option>
+        <option value="blue_light">Blue Light</option>
+        <option value="blue">Blue</option>
+        <option value="blue_dark">Blue Dark</option>
+        <option value="blue_violet">Blue Violet</option>
+        <option value="violet">Violet</option>
+        <option value="violet_light">Violet Light</option>
+        <option value="magenta">Magenta</option>
+        <option value="magenta_dark">Magenta Dark</option>
+        <option value="magenta_red">Magenta Red</option>
+        <option value="grey_light">Grey Light</option>
+        <option value="grey_dark">Grey Dark</option>
+        <option value="black">Black</option>
+        <option value="white">White</option>
+      </select>
+    </div>
+
   </div>
 
   <script>
@@ -52,31 +163,46 @@
 
         const action = jsonObj.actionInfo.payload.settings.action
         const index = jsonObj.actionInfo.payload.settings.index
+        const amount = jsonObj.actionInfo.payload.settings.amount
+        const beats = jsonObj.actionInfo.payload.settings.beats
+        const color = jsonObj.actionInfo.payload.settings.color
 
         renderOptions(action)
 
         document.querySelector('#lexiconActionSelect').value = action
         document.querySelector('#lexiconIndexInput').value = index
+        document.querySelector('#lexiconAmountInput').value = amount
+        document.querySelector('#lexiconBeatsInput').value = beats
+        document.querySelector('#lexiconColorInput').value = color
 
         if (jsonObj.hasOwnProperty('actionInfo')) {
-          pluginAction = jsonObj.actionInfo['action']
+          pluginAction = jsonObj.actionInfo.action
         }
       })
     }
 
-    function onActionChange() {
+    function onInputChange() {
       const actionEl = document.querySelector('#lexiconActionSelect')
       const indexEl = document.querySelector('#lexiconIndexInput')
+      const amountEl = document.querySelector('#lexiconAmountInput')
+      const beatsEl = document.querySelector('#lexiconBeatsInput')
+      const colorEl = document.querySelector('#lexiconColorInput')
 
       const action = actionEl.value
       const index = Number(indexEl.value)
+      const amount = Number(amountEl.value)
+      const beats = Number(beatsEl.value)
+      const color = colorEl.value
 
       renderOptions(action)
 
       if ($SD && $SD.connection) {
         var payload = {
           action,
-          index
+          index,
+          amount,
+          beats,
+          color
         }
 
         $SD.api.sendToPlugin(uuid, pluginAction, payload)
@@ -84,10 +210,39 @@
     }
 
     function renderOptions(action) {
-      if (['MusicPlayer_Hotcue'].includes(action)) {
+      if ([
+        'MusicPlayer_Hotcue',
+        'MusicPlayer_CreateHotcue',
+        'MusicPlayer_DeleteHotcue',
+        'MusicPlayer_ApplyCueTemplate'
+      ].includes(action)) {
         document.querySelector('#lexiconIndexRow').classList.remove('sdpi-hidden')
       } else {
         document.querySelector('#lexiconIndexRow').classList.add('sdpi-hidden')
+      }
+
+      if ([
+        'Application_SetRating',
+        'Application_SetEnergy',
+        'Application_SetDanceability',
+        'Application_SetPopularity',
+        'Application_SetHappiness',
+      ].includes(action)) {
+        document.querySelector('#lexiconAmountRow').classList.remove('sdpi-hidden')
+      } else {
+        document.querySelector('#lexiconAmountRow').classList.add('sdpi-hidden')
+      }
+
+      if (['MusicPlayer_JumpBeats'].includes(action)) {
+        document.querySelector('#lexiconBeatsRow').classList.remove('sdpi-hidden')
+      } else {
+        document.querySelector('#lexiconBeatsRow').classList.add('sdpi-hidden')
+      }
+
+      if (['Application_SetColor'].includes(action)) {
+        document.querySelector('#lexiconColorRow').classList.remove('sdpi-hidden')
+      } else {
+        document.querySelector('#lexiconColorRow').classList.add('sdpi-hidden')
       }
     }
   </script>

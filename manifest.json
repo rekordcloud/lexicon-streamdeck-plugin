@@ -2,7 +2,7 @@
   "Actions": [
     {
       "Icon": "actionIcon",
-      "Name": "Lexicon Action",
+      "Name": "Send Action",
       "States": [
         {
           "Image": "actionDefaultImage",
@@ -19,6 +19,8 @@
   "Author": "Rekordcloud",
   "CodePath": "index.html",
   "Description": "Control Lexicon with your Stream Deck",
+  "Category": "Lexicon",
+  "CategoryIcon": "pluginIcon",
   "Name": "Lexicon",
   "Icon": "pluginIcon",
   "URL": "https://www.lexicondj.com",

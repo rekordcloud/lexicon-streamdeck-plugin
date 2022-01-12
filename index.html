@@ -8,23 +8,29 @@
 
 <body>
   <script>
-    var API_URL = 'http://localhost:48624/v1/control'
-    var websocket = null
-    var pluginUUID = null
-    var settingsCache = {}
-    var DestinationEnum = Object.freeze({ "HARDWARE_AND_SOFTWARE": 0, "HARDWARE_ONLY": 1, "SOFTWARE_ONLY": 2 })
+    const API_URL = 'http://localhost:48624/v1/control'
+    const DestinationEnum = Object.freeze({ "HARDWARE_AND_SOFTWARE": 0, "HARDWARE_ONLY": 1, "SOFTWARE_ONLY": 2 })
+
+    let websocket = null
+    let pluginUUID = null
 
     var lexiconAction = {
       type: "cloud.rekord.lexicon.action",
 
-      onKeyDown: function (context, settings, coordinates, userDesiredState) {
-        if (settingsCache.action) {
-          const index = (settingsCache.index || 0)  - 1 // Zero based in Lexicon
+      onKeyDown: function (uuid, settings, coordinates, userDesiredState) {
+        if (settings.action) {
+          const index = (settings.index || 0) - 1 // Zero based in Lexicon
+          const amount = settings.amount
+          const beats = settings.beats
+          const color = settings.color
 
           const body = {
-            action: settingsCache.action,
+            action: settings.action,
             parameters: {
-              index
+              index,
+              amount,
+              beats,
+              color
             }
           }
 
@@ -40,23 +46,15 @@
         }
       },
 
-      onKeyUp: function (context, settings, coordinates, userDesiredState) {
-
-      },
-
       onWillAppear: function (context, settings, coordinates) {
         lexiconAction.SetSettings(context, settings)
       },
 
       SetSettings: function (context, settings) {
-        var json = {
+        const json = {
           "event": "setSettings",
           "context": context,
           "payload": settings
-        }
-
-        for (var key in settings) {
-          settingsCache[key] = settings[key]
         }
 
         websocket.send(JSON.stringify(json))
@@ -83,21 +81,24 @@
       }
 
       websocket.onmessage = function (evt) {
-        var jsonObj = JSON.parse(evt.data)
-        var event = jsonObj['event']
-        var action = jsonObj['action']
-        var context = jsonObj['context']
-        var jsonPayload = jsonObj['payload'] || {}
-console.log(jsonObj)
+        const jsonObj = JSON.parse(evt.data)
+
+        const event = jsonObj.event
+        const action = jsonObj.action
+        const context = jsonObj.context
+        const jsonPayload = jsonObj.payload || {}
+
         if (event == "keyDown") {
-          var settings = jsonPayload['settings']
-          var coordinates = jsonPayload['coordinates']
-          var userDesiredState = jsonPayload['userDesiredState']
+          const settings = jsonPayload.settings
+          const coordinates = jsonPayload.coordinates
+          const userDesiredState = jsonPayload.userDesiredState
+
           lexiconAction.onKeyDown(context, settings, coordinates, userDesiredState)
         }
         else if (event == "willAppear") {
-          var settings = jsonPayload['settings']
-          var coordinates = jsonPayload['coordinates']
+          const settings = jsonPayload.settings
+          const coordinates = jsonPayload.coordinates
+
           lexiconAction.onWillAppear(context, settings, coordinates)
         }
         else if (event == "sendToPlugin") {

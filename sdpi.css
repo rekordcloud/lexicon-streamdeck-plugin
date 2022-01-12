@@ -81,7 +81,7 @@ input,
 select,
 button {
   font-size: 10pt;
-  font-weight: var(--sdpi-fontweight);
+  /* font-weight: var(--sdpi-fontweight); */
   letter-spacing: var(--sdpi-letterspacing);
 }
 
