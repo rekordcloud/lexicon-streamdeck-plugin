@@ -10,7 +10,7 @@
           "FontSize": "16"
         }
       ],
-      "SupportedInMultiActions": false,
+      "SupportedInMultiActions": true,
       "Tooltip": "Control Lexicon with your Stream Deck",
       "UUID": "cloud.rekord.lexicon.action"
     }
