@@ -15,6 +15,7 @@
     input {
       padding: 0 5px;
     }
+
   </style>
 </head>
 
@@ -24,35 +25,57 @@
       <div class="sdpi-item-label">Action</div>
       <select id="lexiconActionSelect" class="sdpi-item-value select" required onchange="onInputChange()">
         <optgroup label="Application">
-          <option value="Application_OpenSettings">Open Settings</option>
-          <option value="Application_OpenHelp">Open Help</option>
-          <option value="Application_ToggleWindow">Toggle Window</option>
+          <option value="Application_OpenSettings">Open settings</option>
+          <option value="Application_OpenHelp">Open help</option>
+          <option value="Application_ToggleWindow">Toggle window</option>
         </optgroup>
         <optgroup label="Navigation">
-          <option value="Navigation_ToggleSidebar">Toggle Sidebar</option>
+          <option value="Navigation_ToggleSidebar">Toggle sidebar</option>
           <option value="Navigation_ToggleBeatgridControls">Toggle beatgrid/jump</option>
           <option value="Navigation_ToggleSidepanel">Toggle sidepanel</option>
-          <option value="Navigation_ExpandPlaylists">Expand Playlists</option>
-          <option value="Navigation_CollapsePlaylists">Collapse Playlists</option>
-          <option value="Navigation_SelectCurrentPlaying">Select Current Playing</option>
+          <option value="Navigation_ExpandPlaylists">Expand all playlists</option>
+          <option value="Navigation_CollapsePlaylists">Collapse all playlists</option>
+          <option value="Navigation_SidebarTracksAll">Sidebar: All Tracks</option>
+          <option value="Navigation_SidebarTracksIncoming">Sidebar: Incoming</option>
+          <option value="Navigation_SidebarTracksArchive">Sidebar: Archive</option>
+          <option value="Navigation_SidebarTags">Sidebar: Tags</option>
+          <option value="Navigation_SidebarSync">Sidebar: Sync</option>
+          <option value="Navigation_SidebarImport">Sidebar: Import</option>
+          <option value="Navigation_SidebarTrackMatcher">Sidebar: Track Matcher</option>
+          <option value="Navigation_SidebarCharts">Sidebar: Charts</option>
+          <option value="Navigation_SidebarStoreLinks">Sidebar: Store Links</option>
+          <option value="Navigation_SidebarStatistics">Sidebar: Statistics</option>
         </optgroup>
         <optgroup label="Track Browser">
-          <option value="Application_ArchiveSelected">Archive selected tracks</option>
+          <option value="Incoming_SelectedDone">Incoming tracks: Mark selected done</option>
+          <option value="Navigation_SelectCurrentPlaying">Find currently playing track</option>
           <option value="TrackBrowser_FocusFilter_Title">Focus filter: Title</option>
           <option value="TrackBrowser_FocusFilter_Artist">Focus filter: Artist</option>
           <option value="TrackBrowser_FocusFilter_Genre">Focus filter: Genre</option>
           <option value="TrackBrowser_FocusFilter_Comment">Focus filter: Comment</option>
           <option value="TrackBrowser_ClearFilter">Clear filters</option>
+          <option value="TrackBrowser_Analyze">Selected tracks: Analyze</option>
+          <option value="TrackBrowser_ReloadTags">Selected tracks: Reload tags</option>
+          <option value="CloudFileBackup_UploadSelected">Selected tracks: Upload to cloud</option>
+          <option value="Application_ArchiveSelected">Selected tracks: Archive</option>
+          <option value="TrackBrowser_CuePointGenerator">Selected tracks: Generate cue points</option>
+          <option value="TrackBrowser_Discovery">Selected tracks: Discover new tracks</option>
+          <option value="TrackBrowser_TagLookup">Selected tracks: Find tags & album art</option>
+          <option value="TrackBrowser_TagWriter">Selected tracks: Write tags to file</option>
+          <option value="TrackBrowser_MixableTracks">Selected tracks: Find mixable tracks</option>
         </optgroup>
         <optgroup label="Editing">
-          <option value="Application_OpenEditor">Open Editor</option>
-          <option value="Application_OpenTags">Open Tags</option>
-          <option value="Application_SetRating">Set Rating</option>
-          <option value="Application_SetColor">Set Color</option>
-          <option value="Application_SetEnergy">Set Energy</option>
-          <option value="Application_SetDanceability">Set Danceability</option>
-          <option value="Application_SetPopularity">Set Popularity</option>
-          <option value="Application_SetHappiness">Set Happiness</option>
+          <option value="Application_OpenEditor">Open editor</option>
+          <option value="Application_OpenTags">Open tags</option>
+          <option value="Application_SetRating">Set rating</option>
+          <option value="Application_SetColor">Set color</option>
+          <option value="Application_SetColor_None">Remove color</option>
+          <option value="Application_SetEnergy">Set energy</option>
+          <option value="Application_SetDanceability">Set danceability</option>
+          <option value="Application_SetPopularity">Set popularity</option>
+          <option value="Application_SetHappiness">Set happiness</option>
+          <option value="Application_Tags_AddShortcut">Add tag(s) assigned to shortcut</option>
+          <option value="Application_Tags_Clear">Remove all tags</option>
         </optgroup>
         <optgroup label="Music Player">
           <option value="MusicPlayer_Play">Play</option>
@@ -95,11 +118,9 @@
           <option value="Application_ApplyCuepointGeneratorTemplate">Apply generator template</option>
           <option value="MusicPlayer_ApplyCueTemplate">Apply cue template</option>
         </optgroup>
-        <optgroup label="Incoming Tracks">
-          <option value="Incoming_SelectedDone">Mark selected done</option>
-        </optgroup>
-        <optgroup label="Cloud Storage">
-          <option value="CloudFileBackup_UploadSelected">Upload selected tracks</option>
+        <optgroup label="Favorite Playlists">
+          <option value="FavoritePlaylists_ShowPlaylist">Show favorite playlist</option>
+          <option value="FavoritePlaylists_AddSelectedTracksPlaylist">Add selected tracks to fav. playlist</option>
         </optgroup>
       </select>
     </div>
@@ -192,7 +213,7 @@
       })
     }
 
-    function onInputChange() {
+    function onInputChange () {
       const actionEl = document.querySelector('#lexiconActionSelect')
       const indexEl = document.querySelector('#lexiconIndexInput')
       const amountEl = document.querySelector('#lexiconAmountInput')
@@ -220,7 +241,7 @@
       }
     }
 
-    function renderOptions(action) {
+    function renderOptions (action) {
       if ([
         'MusicPlayer_Hotcue',
         'MusicPlayer_CreateHotcue',
@@ -238,6 +259,9 @@
         'Application_SetDanceability',
         'Application_SetPopularity',
         'Application_SetHappiness',
+        'Application_Tags_AddShortcut',
+        'FavoritePlaylists_ShowPlaylist',
+        'FavoritePlaylists_AddSelectedTracksPlaylist'
       ].includes(action)) {
         document.querySelector('#lexiconAmountRow').classList.remove('sdpi-hidden')
       } else {
