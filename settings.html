@@ -15,7 +15,6 @@
     input {
       padding: 0 5px;
     }
-
   </style>
 </head>
 
@@ -25,6 +24,7 @@
       <div class="sdpi-item-label">Action</div>
       <select id="lexiconActionSelect" class="sdpi-item-value select" required onchange="onInputChange()">
         <optgroup label="Application">
+          <option value="Appearance_ToggleTheme">Toggle theme</option>
           <option value="Application_OpenSettings">Open settings</option>
           <option value="Application_OpenHelp">Open help</option>
           <option value="Application_ToggleWindow">Toggle window</option>
@@ -45,6 +45,8 @@
           <option value="Navigation_SidebarCharts">Sidebar: Charts</option>
           <option value="Navigation_SidebarStoreLinks">Sidebar: Store Links</option>
           <option value="Navigation_SidebarStatistics">Sidebar: Statistics</option>
+          <option value="Navigation_SidebarBeatport">Sidebar: Beatport</option>
+          <option value="Navigation_FocusPlaylistsFilter">Focus playlists filter</option>
         </optgroup>
         <optgroup label="Track Browser">
           <option value="Incoming_SelectedDone">Incoming tracks: Mark selected done</option>
@@ -116,8 +118,18 @@
           <option value="MusicPlayer_JumpEnd">Jump to end</option>
         </optgroup>
         <optgroup label="Cue Templates">
-          <option value="Application_ApplyCuepointGeneratorTemplate">Apply generator template</option>
           <option value="MusicPlayer_ApplyCueTemplate">Apply cue template</option>
+          <option value="Application_ApplyCuepointGeneratorTemplatePlayingTrack">Apply generator template to playing track</option>
+          <option value="Application_ApplyCuepointGeneratorTemplateSelectedTracks">Apply generator template to selected tracks</option>
+        </optgroup>
+        <optgroup label="Playlists">
+          <option value="Playlists_NewPlaylist">New playlist</option>
+          <option value="Playlists_NewSmartlist">New smartlist</option>
+          <option value="Playlists_NewFolder">New playlist folder</option>
+          <option value="Playlists_SetAsFavorite">Set playlist as favorite</option>
+          <option value="Playlists_Duplicate">Duplicate playlist</option>
+          <option value="Playlists_EditSmartlist">Edit smartlist</option>
+          <option value="Playlists_DuplicateAsPlaylist">Duplicate as playlist</option>
         </optgroup>
         <optgroup label="Favorite Playlists">
           <option value="FavoritePlaylists_ShowPlaylist">Show favorite playlist</option>
