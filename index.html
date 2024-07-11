@@ -19,18 +19,24 @@
 
       onKeyDown: function (uuid, settings, coordinates, userDesiredState) {
         if (settings.action) {
+          const action = settings.action
+
           const index = (settings.index || 0) - 1 // Zero based in Lexicon
           const amount = settings.amount
           const beats = settings.beats
           const color = settings.color
+          const pluginName = settings.pluginName
+          const pluginActionName = settings.pluginActionName
 
           const body = {
-            action: settings.action,
+            action,
             parameters: {
               index,
               amount,
               beats,
-              color
+              color,
+              pluginName,
+              pluginActionName
             }
           }
 
@@ -61,13 +67,13 @@
       }
     }
 
-    function connectElgatoStreamDeckSocket(inPort, inPluginUUID, inRegisterEvent, inInfo) {
+    function connectElgatoStreamDeckSocket (inPort, inPluginUUID, inRegisterEvent, inInfo) {
       pluginUUID = inPluginUUID
 
       // Open the web socket
       websocket = new WebSocket("ws://localhost:" + inPort)
 
-      function registerPlugin(inPluginUUID) {
+      function registerPlugin (inPluginUUID) {
         var json = {
           "event": inRegisterEvent,
           "uuid": inPluginUUID
