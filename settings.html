@@ -27,7 +27,23 @@
           <option value="Application_OpenSettings">Open settings</option>
           <option value="Application_OpenHelp">Open help</option>
           <option value="Application_OpenSearch">Open search</option>
+          <option value="Application_OpenActionCenter">Open action center</option>
           <option value="Application_OpenUndo">Open undo history</option>
+          <option value="Application_CheckForUpdates">Check For Updates</option>
+          <option value="Application_OpenDuplicateTracksDialog">Open Duplicate Tracks Dialog</option>
+          <option value="Application_OpenUnusedFilesDialog">Open Unused Files Dialog</option>
+          <option value="Application_OpenBrokenTracksDialog">Open Broken Tracks Dialog</option>
+          <option value="Application_OpenRelocateDialog">Open Relocate Dialog</option>
+          <option value="Application_OpenReencodeFilesDialog">Open Reencode Files Dialog</option>
+          <option value="Application_OpenStreamingTransferDialog">Open Streaming Transfer Dialog</option>
+          <option value="Application_OpenPlaylistOccurrenceDialog">Open Playlist Occurrence Dialog</option>
+          <option value="Application_OpenImportTagsFromFileDialog">Open Import Tags From File Dialog</option>
+          <option value="Application_OpenBackupCreateDialog">Open Backup Create Dialog</option>
+          <option value="Application_OpenBackupRestoreDialog">Open Backup Restore Dialog</option>
+          <option value="Application_OpenBackupCloudDialog">Open Backup Cloud Dialog</option>
+          <option value="Application_OpenCleanupDialog">Open Cleanup Dialog</option>
+          <option value="Application_OpenUserFeedbackDialog">Open User Feedback Dialog</option>
+          <option value="Application_OpenIntegrityCheckDialog">Open Integrity Check Dialog</option>
           <option value="Appearance_ToggleTheme">Toggle theme</option>
           <option value="Application_ToggleWindow">Toggle window</option>
         </optgroup>
@@ -96,16 +112,23 @@
           <option value="MusicPlayer_ToggleQuantize">Toggle quantize</option>
           <option value="MusicPlayer_ZoomIn">Zoom in</option>
           <option value="MusicPlayer_ZoomOut">Zoom out</option>
+          <option value="MusicPlayer_FocusBpmField">Focus BPM field</option>
+          <option value="MusicPlayer_ClearQueue">Clear queue</option>
+          <option value="MusicPlayer_ShuffleQueue">Shuffle queue</option>
         </optgroup>
         <optgroup label="Cues">
           <option value="MusicPlayer_Cue">Cue</option>
           <option value="MusicPlayer_CuePlay">Cue Play</option>
-          <option value="MusicPlayer_DeleteHotcue">Delete Hotcue</option>
-          <option value="MusicPlayer_CreateHotcue">Create Hotcue</option>
-          <option value="MusicPlayer_Hotcue">Hotcue</option>
+          <option value="MusicPlayer_DeleteHotcue">Delete cue</option>
+          <option value="MusicPlayer_CreateHotcue">Create cue</option>
+          <option value="MusicPlayer_AddEmptyCue">Add empty cue</option>
+          <option value="MusicPlayer_AddCueAsLast">Add cue as last</option>
+          <option value="MusicPlayer_DeletePreviousCue">Delete previous cue</option>
+          <option value="MusicPlayer_Hotcue">Cue</option>
           <option value="MusicPlayer_LoopCreate">Turn cue into loop of size</option>
           <option value="MusicPlayer_LoopDouble">Double loop size</option>
           <option value="MusicPlayer_LoopHalve">Halve loop size</option>
+          <option value="MusicPlayer_LoopToggleActive">Toggle active loop</option>
         </optgroup>
         <optgroup label="Beatgrid">
           <option value="MusicPlayer_TempomarkerSet">Move marker to current position</option>
@@ -122,9 +145,10 @@
           <option value="MusicPlayer_TempomarkerTapBpm">Tap BPM</option>
         </optgroup>
         <optgroup label="Track Jump">
-          <option value="MusicPlayer_JumpBeats">Jump forward/backward</option>
+          <option value="MusicPlayer_JumpBeats">Jump forward/backward beats</option>
           <option value="MusicPlayer_JumpStart">Jump to start</option>
           <option value="MusicPlayer_JumpEnd">Jump to end</option>
+          <option value="MusicPlayer_JumpSeconds">Jump forward/backwards seconds</option>
         </optgroup>
         <optgroup label="Cue Templates">
           <option value="MusicPlayer_ApplyCueTemplate">Apply cue template</option>
@@ -147,6 +171,7 @@
           <option value="Beatport_RemoveSelectedFromCart">RemoveSelectedFromCart</option>
           <option value="Beatport_NextPage">NextPage</option>
           <option value="Beatport_PreviousPage">PreviousPage</option>
+          <option value="Beatport_AddPlayingToCart">Add playing track to cart</option>
           <option value="Beatport_TabsBeatportCatalog">Tabs: Beatport Catalog</option>
           <option value="Beatport_TabsTop">Tabs: Top</option>
           <option value="Beatport_TabsHype">Tabs: Hype</option>
@@ -329,6 +354,7 @@
 
       if ([
         'MusicPlayer_JumpBeats',
+        'MusicPlayer_JumpSeconds',
         'MusicPlayer_LoopCreate'
       ].includes(action)) {
         document.querySelector('#lexiconBeatsRow').classList.remove('sdpi-hidden')
