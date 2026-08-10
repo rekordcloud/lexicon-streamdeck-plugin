@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Lexicon Stream Deck key preview</title>
+  <script src="../cue-colors.js"></script>
+  <script src="../mdi-icons.js"></script>
+  <style>
+    :root {
+      --deck-body: #2b2b2d;
+      --deck-edge: #444447;
+      --page-bg: #17171a;
+      --text: #e8e8ea;
+      --text-dim: #96969c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px;
+      background: var(--page-bg);
+      color: var(--text);
+      font: 14px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0 0 4px;
+    }
+
+    p.sub {
+      color: var(--text-dim);
+      margin: 0 0 24px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      background: #202024;
+      border: 1px solid #313136;
+      border-radius: 10px;
+    }
+
+    .controls label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-dim);
+    }
+
+    .controls input[type="text"],
+    .controls select {
+      background: #17171a;
+      color: var(--text);
+      border: 1px solid #3a3a40;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font: inherit;
+    }
+
+    /* The Stream Deck chassis */
+    .deck {
+      display: inline-block;
+      padding: 22px;
+      background: linear-gradient(#3a3a3d, var(--deck-body));
+      border: 1px solid var(--deck-edge);
+      border-radius: 16px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .55);
+    }
+
+    .keys {
+      display: grid;
+      gap: 12px;
+    }
+
+    /* One key: square, rounded, dark face, with the image full bleed */
+    .key {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 9px;
+      background: #000;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06), 0 1px 2px rgba(0, 0, 0, .6);
+    }
+
+    .key img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      image-rendering: auto;
+    }
+
+    /* Stream Deck renders the title over the image */
+    .key .title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #fff;
+      font-weight: 600;
+      line-height: 1.1;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, .9);
+      padding: 0 3px;
+      word-break: break-word;
+    }
+
+    .key.title-top .title {
+      top: 5%;
+    }
+
+    .key.title-middle .title {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .key.title-bottom .title {
+      bottom: 5%;
+    }
+
+    .key.hide-title .title {
+      display: none;
+    }
+
+    .caption {
+      margin-top: 6px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-dim);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    /* Page tabs */
+    nav {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #313136;
+    }
+
+    nav button {
+      appearance: none;
+      background: none;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      color: var(--text-dim);
+      font: inherit;
+      font-weight: 600;
+      padding: 8px 14px;
+      cursor: pointer;
+    }
+
+    nav button:hover {
+      color: var(--text);
+    }
+
+    nav button.active {
+      color: var(--text);
+      border-bottom-color: #7fe80e;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    h2 {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--text-dim);
+      margin: 0 0 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Lexicon Stream Deck key images</h1>
+  <p class="sub" id="pageSub"></p>
+
+  <nav>
+    <button data-page="cues" class="active">Cue markers</button>
+    <button data-page="icons">Beatgrid icons</button>
+  </nav>
+
+  <div class="controls">
+    <label>
+      Key size
+      <select id="sizeSelect">
+        <option value="72">72px (hardware)</option>
+        <option value="96" selected>96px</option>
+        <option value="120">120px</option>
+        <option value="144">144px (native)</option>
+      </select>
+    </label>
+
+    <label>
+      Columns
+      <select id="colsSelect">
+        <option value="5">5 (Stream Deck)</option>
+        <option value="8">8 (XL)</option>
+        <option value="7" selected>7</option>
+        <option value="14">14</option>
+      </select>
+    </label>
+
+    <label>
+      Title
+      <select id="titleSelect">
+        <option value="title-bottom" selected>Bottom</option>
+        <option value="title-middle">Middle</option>
+        <option value="title-top">Top</option>
+        <option value="hide-title">None</option>
+      </select>
+    </label>
+
+    <label>
+      Title text
+      <input id="titleText" type="text" value="Cue 1" size="10">
+    </label>
+
+    <label>
+      Key face
+      <select id="faceSelect">
+        <option value="#000000" selected>Black</option>
+        <option value="#1a1a1a">Near black</option>
+        <option value="#2b2b2d">Dark grey</option>
+        <option value="#ffffff">White</option>
+      </select>
+    </label>
+
+    <label>
+      Asset
+      <select id="assetSelect">
+        <option value="" selected>1x (144px)</option>
+        <option value="@2x">2x (288px)</option>
+      </select>
+    </label>
+  </div>
+
+  <section class="page active" id="page-cues">
+    <h2>All cue colors</h2>
+    <div class="deck">
+      <div class="keys" id="cuesGrid"></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-icons">
+    <h2>Beatgrid controls</h2>
+    <div class="deck">
+      <div class="keys" id="iconsGrid"></div>
+    </div>
+  </section>
+
+  <script>
+    const SUBTITLES = {
+      cues: 'Generated by <code>tools/generate-cue-images.js</code> into <code>images/cues/</code>. Triangle geometry matches <code>drawCuepoints()</code> in OverviewWaveform.ts: flat edge on top, apex pointing down.',
+      icons: 'Generated by <code>tools/generate-icon-images.js</code> into <code>images/icons/</code>. The MDI icons used by the beatgrid controls in <code>MusicPlayer/Edits/Beatgrid/index.vue</code>.'
+    }
+
+    let page = 'cues'
+
+    const cuesGrid = document.querySelector('#cuesGrid')
+    const iconsGrid = document.querySelector('#iconsGrid')
+    const sizeSelect = document.querySelector('#sizeSelect')
+    const colsSelect = document.querySelector('#colsSelect')
+    const titleSelect = document.querySelector('#titleSelect')
+    const titleText = document.querySelector('#titleText')
+    const faceSelect = document.querySelector('#faceSelect')
+    const assetSelect = document.querySelector('#assetSelect')
+
+    function buildKey (src, alt, captionText) {
+      const size = Number(sizeSelect.value)
+
+      const cell = document.createElement('div')
+
+      const key = document.createElement('div')
+      key.className = `key ${titleSelect.value}`
+      key.style.background = faceSelect.value
+
+      const img = document.createElement('img')
+      img.src = src
+      img.alt = alt
+
+      const title = document.createElement('div')
+      title.className = 'title'
+      title.textContent = titleText.value
+      title.style.fontSize = `${Math.round(size * 0.15)}px`
+
+      key.appendChild(img)
+      key.appendChild(title)
+
+      const caption = document.createElement('div')
+      caption.className = 'caption'
+      caption.textContent = captionText
+      caption.style.whiteSpace = 'pre'
+
+      cell.appendChild(key)
+      cell.appendChild(caption)
+
+      return cell
+    }
+
+    function render () {
+      const size = Number(sizeSelect.value)
+      const cols = Number(colsSelect.value)
+      const suffix = assetSelect.value
+
+      document.querySelector('#pageSub').innerHTML = SUBTITLES[page]
+
+      document.querySelectorAll('.page').forEach(function (el) {
+        el.classList.toggle('active', el.id === `page-${page}`)
+      })
+
+      document.querySelectorAll('nav button').forEach(function (el) {
+        el.classList.toggle('active', el.dataset.page === page)
+      })
+
+      ;[cuesGrid, iconsGrid].forEach(function (grid) {
+        grid.style.gridTemplateColumns = `repeat(${cols}, ${size}px)`
+        grid.innerHTML = ''
+      })
+
+      Object.keys(CUE_COLORS).forEach(function (name) {
+        cuesGrid.appendChild(buildKey(
+          `../images/cues/${name}${suffix}.png`,
+          name,
+          `${name}\n${CUE_COLORS[name]}`
+        ))
+      })
+
+      Object.keys(MDI_ICONS).forEach(function (name) {
+        iconsGrid.appendChild(buildKey(
+          `../images/icons/${name}${suffix}.png`,
+          name,
+          `${name}\n${MDI_ICONS[name].label}`
+        ))
+      })
+    }
+
+    document.querySelectorAll('.controls select, .controls input').forEach(function (el) {
+      el.addEventListener('input', render)
+    })
+
+    document.querySelectorAll('nav button').forEach(function (el) {
+      el.addEventListener('click', function () {
+        page = el.dataset.page
+        render()
+      })
+    })
+
+    render()
+  </script>
+</body>
+
+</html>

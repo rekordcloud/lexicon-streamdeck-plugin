@@ -7,6 +7,8 @@
 </head>
 
 <body>
+  <script src="cue-colors.js"></script>
+  <script src="mdi-icons.js"></script>
   <script>
     const API_URL = 'http://localhost:48624/v1/control?app=StreamDeck'
     const DestinationEnum = Object.freeze({ "HARDWARE_AND_SOFTWARE": 0, "HARDWARE_ONLY": 1, "SOFTWARE_ONLY": 2 })
@@ -58,6 +60,7 @@
 
       onWillAppear: function (context, settings, coordinates) {
         lexiconAction.SetSettings(context, settings)
+        lexiconAction.SetImage(context, renderKeyImage(settings && settings.markerColor))
       },
 
       SetSettings: function (context, settings) {
@@ -68,7 +71,89 @@
         }
 
         websocket.send(JSON.stringify(json))
+      },
+
+      SetImage: function (context, image) {
+        const json = {
+          "event": "setImage",
+          "context": context,
+          "payload": {
+            "image": image, // An empty image falls back to the default from the manifest
+            "target": DestinationEnum.HARDWARE_AND_SOFTWARE
+          }
+        }
+
+        websocket.send(JSON.stringify(json))
       }
+    }
+
+    const KEY_SIZE = 144
+
+    /*
+     * Draws the key image for the chosen setting, either a cue marker or a beatgrid icon.
+     * The same images are in images/cues/ and images/icons/, for when you want to set a
+     * key image by hand instead. Anything unknown returns an empty image, which makes
+     * Stream Deck fall back to the default from the manifest.
+     */
+    function renderKeyImage (value) {
+      if (!value) return ''
+
+      if (value.indexOf('icon:') === 0) return renderIcon(value.slice(5))
+
+      return renderCueMarker(value)
+    }
+
+    function createCanvasContext () {
+      const canvas = document.createElement('canvas')
+      canvas.width = KEY_SIZE
+      canvas.height = KEY_SIZE
+
+      return canvas.getContext('2d')
+    }
+
+    /*
+     * The same cue marker Lexicon paints on the waveform: an isoceles triangle with its
+     * flat edge on the top of the key and the apex pointing down.
+     */
+    function renderCueMarker (color) {
+      const hex = CUE_COLORS[color]
+
+      if (!hex) return ''
+
+      const marker = KEY_SIZE * CUE_MARKER_RATIO
+
+      const ctx = createCanvasContext()
+
+      ctx.fillStyle = hex
+
+      ctx.beginPath()
+      ctx.moveTo(KEY_SIZE / 2, marker)
+      ctx.lineTo((KEY_SIZE + marker) / 2, 0)
+      ctx.lineTo((KEY_SIZE - marker) / 2, 0)
+      ctx.closePath()
+
+      ctx.fill()
+
+      return ctx.canvas.toDataURL('image/png')
+    }
+
+    function renderIcon (name) {
+      const icon = MDI_ICONS[name]
+
+      if (!icon) return ''
+
+      const scale = (KEY_SIZE * ICON_RATIO) / MDI_VIEWBOX
+      const offset = (KEY_SIZE - MDI_VIEWBOX * scale) / 2
+
+      const ctx = createCanvasContext()
+
+      ctx.translate(offset, offset)
+      ctx.scale(scale, scale)
+
+      ctx.fillStyle = '#ffffff'
+      ctx.fill(new Path2D(icon.path))
+
+      return ctx.canvas.toDataURL('image/png')
     }
 
     function connectElgatoStreamDeckSocket (inPort, inPluginUUID, inRegisterEvent, inInfo) {
@@ -113,6 +198,7 @@
         }
         else if (event == "sendToPlugin") {
           lexiconAction.SetSettings(context, jsonPayload)
+          lexiconAction.SetImage(context, renderKeyImage(jsonPayload.markerColor))
         }
       }
 

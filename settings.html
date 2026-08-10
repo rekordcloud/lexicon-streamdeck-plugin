@@ -6,6 +6,8 @@
   <title>cloud.rekord.lexicon settings</title>
   <link rel="stylesheet" href="sdpi.css">
   <script src="common.js"></script>
+  <script src="cue-colors.js"></script>
+  <script src="mdi-icons.js"></script>
 
   <style>
     .sdpi-hidden {
@@ -243,37 +245,9 @@
     </div>
 
     <div type="select" class="sdpi-item" id="lexiconColorRow">
-      <div class="sdpi-item-label">Action</div>
+      <div class="sdpi-item-label">Color</div>
       <select id="lexiconColorInput" class="sdpi-item-value select" required onchange="onInputChange()">
         <option value="null">No Color</option>
-        <option value="red_dark">Red Dark</option>
-        <option value="red">Red</option>
-        <option value="red_light">Red Light</option>
-        <option value="red_orange">Red Orange</option>
-        <option value="orange">Orange</option>
-        <option value="beige">Beige</option>
-        <option value="yellow_dark">Yellow Dark</option>
-        <option value="yellow">Yellow</option>
-        <option value="lime">Lime</option>
-        <option value="green_light">Green Light</option>
-        <option value="green">Green</option>
-        <option value="green_dark">Green Dark</option>
-        <option value="teal">Teal</option>
-        <option value="aqua">Aqua</option>
-        <option value="aqua_dark">Aqua Dark</option>
-        <option value="blue_light">Blue Light</option>
-        <option value="blue">Blue</option>
-        <option value="blue_dark">Blue Dark</option>
-        <option value="blue_violet">Blue Violet</option>
-        <option value="violet">Violet</option>
-        <option value="violet_light">Violet Light</option>
-        <option value="magenta">Magenta</option>
-        <option value="magenta_dark">Magenta Dark</option>
-        <option value="magenta_red">Magenta Red</option>
-        <option value="grey_light">Grey Light</option>
-        <option value="grey_dark">Grey Dark</option>
-        <option value="black">Black</option>
-        <option value="white">White</option>
       </select>
     </div>
 
@@ -290,11 +264,52 @@
         <input id="lexiconPluginActionNameInput" placeholder="Count Tracks" type="text" oninput="onInputChange()">
       </div>
     </div>
+
+    <div class="sdpi-item">
+      <div class="sdpi-item-label">Key image</div>
+      <select id="lexiconMarkerInput" class="sdpi-item-value select" onchange="onInputChange()">
+        <option value="">Default</option>
+      </select>
+    </div>
+
+    <details class="sdpi-item">
+      <summary>About the key image</summary>
+      <p>
+        Draws a Lexicon cue marker or beatgrid icon on the key. Set the title position to
+        Bottom in the Stream Deck app so the image stays visible.
+      </p>
+    </details>
   </div>
 
   <script>
     var pluginAction = null
     var uuid = ''
+
+    // Filled from the shared maps, so the lists can never drift from Lexicon's palette and icons
+    ;(function fillImageOptions () {
+      const colorEl = document.querySelector('#lexiconColorInput')
+      const markerEl = document.querySelector('#lexiconMarkerInput')
+
+      const cues = document.createElement('optgroup')
+      cues.label = 'Cue markers'
+
+      Object.keys(CUE_COLORS).forEach(function (name) {
+        const label = cueColorLabel(name)
+
+        colorEl.appendChild(new Option(label, name))
+        cues.appendChild(new Option(label, name))
+      })
+
+      const icons = document.createElement('optgroup')
+      icons.label = 'Beatgrid icons'
+
+      Object.keys(MDI_ICONS).forEach(function (name) {
+        icons.appendChild(new Option(MDI_ICONS[name].label, `icon:${name}`))
+      })
+
+      markerEl.appendChild(cues)
+      markerEl.appendChild(icons)
+    })()
 
     if ($SD) {
       $SD.on('connected', function (jsonObj) {
@@ -309,6 +324,7 @@
         const seconds = jsonObj.actionInfo.payload.settings.seconds
         const deckNumber = jsonObj.actionInfo.payload.settings.deckNumber || 1
         const color = jsonObj.actionInfo.payload.settings.color
+        const markerColor = jsonObj.actionInfo.payload.settings.markerColor || ''
         const pluginName = jsonObj.actionInfo.payload.settings.pluginName || ''
         const pluginActionName = jsonObj.actionInfo.payload.settings.pluginActionName || ''
 
@@ -321,6 +337,7 @@
         document.querySelector('#lexiconSecondsInput').value = seconds
         document.querySelector('#lexiconDeckInput').value = deckNumber
         document.querySelector('#lexiconColorInput').value = color
+        document.querySelector('#lexiconMarkerInput').value = markerColor
         document.querySelector('#lexiconPluginNameInput').value = pluginName
         document.querySelector('#lexiconPluginActionNameInput').value = pluginActionName
 
@@ -338,6 +355,7 @@
       const secondsEl = document.querySelector('#lexiconSecondsInput')
       const deckEl = document.querySelector('#lexiconDeckInput')
       const colorEl = document.querySelector('#lexiconColorInput')
+      const markerEl = document.querySelector('#lexiconMarkerInput')
       const pluginNameEl = document.querySelector('#lexiconPluginNameInput')
       const pluginActionNameEl = document.querySelector('#lexiconPluginActionNameInput')
 
@@ -348,6 +366,7 @@
       const seconds = Number(secondsEl.value)
       const deckNumber = Number(deckEl.value)
       const color = colorEl.value
+      const markerColor = markerEl.value
       const pluginName = pluginNameEl.value
       const pluginActionName = pluginActionNameEl.value
 
@@ -362,6 +381,7 @@
           seconds,
           deckNumber,
           color,
+          markerColor,
           pluginName,
           pluginActionName
         }
