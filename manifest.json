@@ -25,7 +25,7 @@
   "Icon": "pluginIcon",
   "URL": "https://www.lexicondj.com",
   "PropertyInspectorPath": "settings.html",
-  "Version": "1.5",
+  "Version": "1.6",
   "OS": [
     {
       "Platform": "mac",

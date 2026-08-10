@@ -29,6 +29,8 @@
           <option value="Application_OpenSearch">Open search</option>
           <option value="Application_OpenActionCenter">Open action center</option>
           <option value="Application_OpenUndo">Open undo history</option>
+          <option value="Application_UndoLast">Undo last action</option>
+          <option value="Application_OpenHotkeys">Open hotkeys overview</option>
           <option value="Application_CheckForUpdates">Check For Updates</option>
           <option value="Application_OpenDuplicateTracksDialog">Open Duplicate Tracks Dialog</option>
           <option value="Application_OpenUnusedFilesDialog">Open Unused Files Dialog</option>
@@ -38,6 +40,7 @@
           <option value="Application_OpenStreamingTransferDialog">Open Streaming Transfer Dialog</option>
           <option value="Application_OpenPlaylistOccurrenceDialog">Open Playlist Occurrence Dialog</option>
           <option value="Application_OpenImportTagsFromFileDialog">Open Import Tags From File Dialog</option>
+          <option value="Application_OpenSmartlistGeneratorDialog">Open Smartlist Generator Dialog</option>
           <option value="Application_OpenBackupCreateDialog">Open Backup Create Dialog</option>
           <option value="Application_OpenBackupRestoreDialog">Open Backup Restore Dialog</option>
           <option value="Application_OpenBackupCloudDialog">Open Backup Cloud Dialog</option>
@@ -45,12 +48,18 @@
           <option value="Application_OpenUserFeedbackDialog">Open User Feedback Dialog</option>
           <option value="Application_OpenIntegrityCheckDialog">Open Integrity Check Dialog</option>
           <option value="Appearance_ToggleTheme">Toggle theme</option>
+          <option value="Appearance_ToggleCuey">Toggle Cuey overlay</option>
+          <option value="Appearance_ZoomIn">Zoom in</option>
+          <option value="Appearance_ZoomOut">Zoom out</option>
           <option value="Application_ToggleWindow">Toggle window</option>
+          <option value="Application_Quit">Quit Lexicon</option>
         </optgroup>
         <optgroup label="Navigation">
           <option value="Navigation_ToggleSidebar">Toggle sidebar</option>
           <option value="Navigation_ToggleBeatgridControls">Toggle beatgrid/jump</option>
           <option value="Navigation_ToggleSidepanel">Toggle sidepanel</option>
+          <option value="Navigation_ShowTrackTimeline">Show track timeline</option>
+          <option value="Navigation_HideTrackTimeline">Hide track timeline</option>
           <option value="Navigation_SidebarTracksAll">Sidebar: All Tracks</option>
           <option value="Navigation_SidebarTracksIncoming">Sidebar: Incoming</option>
           <option value="Navigation_SidebarTracksArchive">Sidebar: Archive</option>
@@ -74,6 +83,7 @@
           <option value="TrackBrowser_FocusFilter_Genre">Focus filter: Genre</option>
           <option value="TrackBrowser_FocusFilter_Comment">Focus filter: Comment</option>
           <option value="TrackBrowser_ClearFilter">Clear filters</option>
+          <option value="TrackBrowser_RefreshSmartlist">Refresh smartlist</option>
           <option value="TrackBrowser_Analyze">Selected tracks: Analyze</option>
           <option value="TrackBrowser_ReloadTags">Selected tracks: Reload tags</option>
           <option value="TrackBrowser_Relocate">Selected tracks: Relocate</option>
@@ -85,11 +95,16 @@
           <option value="TrackBrowser_TagLookup">Selected tracks: Find tags & album art</option>
           <option value="TrackBrowser_TagWriter">Selected tracks: Write tags to file</option>
           <option value="TrackBrowser_MixableTracks">Selected tracks: Find mixable tracks</option>
+          <option value="TrackBrowser_SendToNewPlaylist">Selected tracks: Send to new playlist</option>
+          <option value="TrackBrowser_SendToIncoming">Selected tracks: Send to Incoming</option>
+          <option value="TrackBrowser_SendToDuplicateMerge">Selected tracks: Send to Duplicate Merge</option>
+          <option value="TrackBrowser_SendToStoreLinks">Selected tracks: Send to Store Links</option>
+          <option value="TrackBrowser_SendToMoveFiles">Selected tracks: Send to Move Files</option>
         </optgroup>
         <optgroup label="Editing">
           <option value="Application_OpenEditor">Open editor</option>
           <option value="Application_OpenTags">Open Custom Tags editor</option>
-          <option value="Application_ApplyCuepointGeneratorTemplatePlayingTrack">Apply generator template to playing track</option>
+          <option value="Application_ApplyCuepointGeneratorTemplate">Apply generator template to playing track</option>
           <option value="Application_ApplyCuepointGeneratorTemplateSelectedTracks">Apply generator template to selected tracks</option>
           <option value="Application_SetRating">Set rating</option>
           <option value="Application_SetColor">Set color</option>
@@ -103,6 +118,7 @@
           <option value="Application_Tags_Clear">Remove all Custom Tags</option>
         </optgroup>
         <optgroup label="Music Player">
+          <option value="MusicPlayer_LoadSelected">Load selected track</option>
           <option value="MusicPlayer_Play">Play</option>
           <option value="MusicPlayer_Pause">Pause</option>
           <option value="MusicPlayer_TogglePlay">Play/Pause</option>
@@ -110,6 +126,7 @@
           <option value="MusicPlayer_Previous">Previous</option>
           <option value="MusicPlayer_Eject">Eject</option>
           <option value="MusicPlayer_ToggleQuantize">Toggle quantize</option>
+          <option value="MusicPlayer_ToggleActiveLoops">Toggle active loops</option>
           <option value="MusicPlayer_ZoomIn">Zoom in</option>
           <option value="MusicPlayer_ZoomOut">Zoom out</option>
           <option value="MusicPlayer_FocusBpmField">Focus BPM field</option>
@@ -121,10 +138,12 @@
           <option value="MusicPlayer_CuePlay">Cue Play</option>
           <option value="MusicPlayer_DeleteHotcue">Delete cue</option>
           <option value="MusicPlayer_CreateHotcue">Create cue</option>
+          <option value="MusicPlayer_MoveHotcue">Move cue to current position</option>
+          <option value="MusicPlayer_ToggleMemoryCue">Toggle cue as memory cue</option>
           <option value="MusicPlayer_AddEmptyCue">Add empty cue</option>
           <option value="MusicPlayer_AddCueAsLast">Add cue as last</option>
           <option value="MusicPlayer_DeletePreviousCue">Delete previous cue</option>
-          <option value="MusicPlayer_Hotcue">Cue</option>
+          <option value="MusicPlayer_Hotcue">Trigger cue</option>
           <option value="MusicPlayer_LoopCreate">Turn cue into loop of size</option>
           <option value="MusicPlayer_LoopDouble">Double loop size</option>
           <option value="MusicPlayer_LoopHalve">Halve loop size</option>
@@ -152,6 +171,7 @@
         </optgroup>
         <optgroup label="Cue Templates">
           <option value="MusicPlayer_ApplyCueTemplate">Apply cue template</option>
+          <option value="MusicPlayer_AddAndApplyCueTemplate">Add cue and apply cue template</option>
         </optgroup>
         <optgroup label="Playlists">
           <option value="Navigation_ExpandPlaylists">Expand all playlists</option>
@@ -167,10 +187,8 @@
           <option value="FavoritePlaylists_AddSelectedTracks">Add selected tracks to fav. playlist</option>
         </optgroup>
         <optgroup label="Beatport">
-          <option value="Beatport_AddSelectedToCart">AddSelectedToCart</option>
-          <option value="Beatport_RemoveSelectedFromCart">RemoveSelectedFromCart</option>
-          <option value="Beatport_NextPage">NextPage</option>
-          <option value="Beatport_PreviousPage">PreviousPage</option>
+          <option value="Beatport_AddSelectedToCart">Add selected tracks to cart</option>
+          <option value="Beatport_RemoveSelectedFromCart">Remove selected tracks from cart</option>
           <option value="Beatport_AddPlayingToCart">Add playing track to cart</option>
           <option value="Beatport_TabsBeatportCatalog">Tabs: Beatport Catalog</option>
           <option value="Beatport_TabsTop">Tabs: Top</option>
@@ -178,6 +196,10 @@
           <option value="Beatport_TabsCharts">Tabs: Charts</option>
           <option value="Beatport_TabsMyBeatport">Tabs: My Beatport</option>
           <option value="Beatport_TabsMyCart">Tabs: My Cart</option>
+        </optgroup>
+        <optgroup label="Direct2CDJ">
+          <option value="Direct2Cdj_LoadDeck">Load selected track to deck</option>
+          <option value="Direct2Cdj_LoadEmptyDeck">Load playing track to empty deck</option>
         </optgroup>
         <optgroup label="Plugins">
           <option value="PluginRunActionByName">Run action</option>
@@ -202,7 +224,21 @@
     <div type="range" class="sdpi-item sdpi-hidden" id="lexiconBeatsRow">
       <div class="sdpi-item-label">Beats</div>
       <div class="sdpi-item-value">
-        <input id="lexiconBeatsInput" placeholder="E.g. 128 or -64" type="number" min="0" step="8" value="0" oninput="onInputChange()">
+        <input id="lexiconBeatsInput" placeholder="E.g. 128 or -64" type="number" step="8" value="0" oninput="onInputChange()">
+      </div>
+    </div>
+
+    <div type="range" class="sdpi-item sdpi-hidden" id="lexiconSecondsRow">
+      <div class="sdpi-item-label">Seconds</div>
+      <div class="sdpi-item-value">
+        <input id="lexiconSecondsInput" placeholder="E.g. 30 or -15" type="number" step="5" value="0" oninput="onInputChange()">
+      </div>
+    </div>
+
+    <div type="range" class="sdpi-item sdpi-hidden" id="lexiconDeckRow">
+      <div class="sdpi-item-label">Deck</div>
+      <div class="sdpi-item-value">
+        <input id="lexiconDeckInput" type="number" min="1" max="8" step="1" value="1" oninput="onInputChange()">
       </div>
     </div>
 
@@ -270,6 +306,8 @@
         const index = jsonObj.actionInfo.payload.settings.index
         const amount = jsonObj.actionInfo.payload.settings.amount
         const beats = jsonObj.actionInfo.payload.settings.beats
+        const seconds = jsonObj.actionInfo.payload.settings.seconds
+        const deckNumber = jsonObj.actionInfo.payload.settings.deckNumber || 1
         const color = jsonObj.actionInfo.payload.settings.color
         const pluginName = jsonObj.actionInfo.payload.settings.pluginName || ''
         const pluginActionName = jsonObj.actionInfo.payload.settings.pluginActionName || ''
@@ -280,6 +318,8 @@
         document.querySelector('#lexiconIndexInput').value = index
         document.querySelector('#lexiconAmountInput').value = amount
         document.querySelector('#lexiconBeatsInput').value = beats
+        document.querySelector('#lexiconSecondsInput').value = seconds
+        document.querySelector('#lexiconDeckInput').value = deckNumber
         document.querySelector('#lexiconColorInput').value = color
         document.querySelector('#lexiconPluginNameInput').value = pluginName
         document.querySelector('#lexiconPluginActionNameInput').value = pluginActionName
@@ -295,6 +335,8 @@
       const indexEl = document.querySelector('#lexiconIndexInput')
       const amountEl = document.querySelector('#lexiconAmountInput')
       const beatsEl = document.querySelector('#lexiconBeatsInput')
+      const secondsEl = document.querySelector('#lexiconSecondsInput')
+      const deckEl = document.querySelector('#lexiconDeckInput')
       const colorEl = document.querySelector('#lexiconColorInput')
       const pluginNameEl = document.querySelector('#lexiconPluginNameInput')
       const pluginActionNameEl = document.querySelector('#lexiconPluginActionNameInput')
@@ -303,6 +345,8 @@
       const index = Number(indexEl.value)
       const amount = Number(amountEl.value)
       const beats = Number(beatsEl.value)
+      const seconds = Number(secondsEl.value)
+      const deckNumber = Number(deckEl.value)
       const color = colorEl.value
       const pluginName = pluginNameEl.value
       const pluginActionName = pluginActionNameEl.value
@@ -315,6 +359,8 @@
           index,
           amount,
           beats,
+          seconds,
+          deckNumber,
           color,
           pluginName,
           pluginActionName
@@ -329,7 +375,10 @@
         'MusicPlayer_Hotcue',
         'MusicPlayer_CreateHotcue',
         'MusicPlayer_DeleteHotcue',
-        'MusicPlayer_ApplyCueTemplate'
+        'MusicPlayer_MoveHotcue',
+        'MusicPlayer_ToggleMemoryCue',
+        'MusicPlayer_ApplyCueTemplate',
+        'MusicPlayer_AddAndApplyCueTemplate'
       ].includes(action)) {
         document.querySelector('#lexiconIndexRow').classList.remove('sdpi-hidden')
       } else {
@@ -354,12 +403,23 @@
 
       if ([
         'MusicPlayer_JumpBeats',
-        'MusicPlayer_JumpSeconds',
         'MusicPlayer_LoopCreate'
       ].includes(action)) {
         document.querySelector('#lexiconBeatsRow').classList.remove('sdpi-hidden')
       } else {
         document.querySelector('#lexiconBeatsRow').classList.add('sdpi-hidden')
+      }
+
+      if (['MusicPlayer_JumpSeconds'].includes(action)) {
+        document.querySelector('#lexiconSecondsRow').classList.remove('sdpi-hidden')
+      } else {
+        document.querySelector('#lexiconSecondsRow').classList.add('sdpi-hidden')
+      }
+
+      if (['Direct2Cdj_LoadDeck'].includes(action)) {
+        document.querySelector('#lexiconDeckRow').classList.remove('sdpi-hidden')
+      } else {
+        document.querySelector('#lexiconDeckRow').classList.add('sdpi-hidden')
       }
 
       if (['Application_SetColor'].includes(action)) {
