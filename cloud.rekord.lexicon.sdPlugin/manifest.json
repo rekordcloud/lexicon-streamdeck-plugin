@@ -1,0 +1,49 @@
+{
+  "Name": "Lexicon",
+  "Version": "2.0.0.0",
+  "Author": "Rekordcloud",
+  "Actions": [
+    {
+      "Name": "Send Action",
+      "UUID": "cloud.rekord.lexicon.action",
+      "Icon": "imgs/actionIcon",
+      "Tooltip": "Control Lexicon with your Stream Deck",
+      "Controllers": [
+        "Keypad"
+      ],
+      "SupportedInMultiActions": true,
+      "States": [
+        {
+          "Image": "imgs/actionDefaultImage",
+          "TitleAlignment": "middle",
+          "FontSize": 16
+        }
+      ]
+    }
+  ],
+  "Category": "Lexicon",
+  "CategoryIcon": "imgs/pluginIcon",
+  "CodePath": "bin/plugin.js",
+  "Description": "Control Lexicon with your Stream Deck",
+  "Icon": "imgs/pluginIcon",
+  "PropertyInspectorPath": "ui/settings.html",
+  "SDKVersion": 3,
+  "Software": {
+    "MinimumVersion": "7.1"
+  },
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "12"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Nodejs": {
+    "Version": "24"
+  },
+  "URL": "https://www.lexicondj.com/manual/stream-deck",
+  "UUID": "cloud.rekord.lexicon"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "lexicon-streamdeck-plugin",
+  "private": true,
+  "description": "Control Lexicon with your Stream Deck",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w --watch.onEnd=\"streamdeck restart cloud.rekord.lexicon\"",
+    "test": "node --test --experimental-strip-types test/*.test.ts",
+    "validate": "streamdeck validate cloud.rekord.lexicon.sdPlugin",
+    "pack": "npm run build && streamdeck pack cloud.rekord.lexicon.sdPlugin --output Release --force"
+  },
+  "devDependencies": {
+    "@elgato/cli": "^1.10.4",
+    "@rollup/plugin-commonjs": "^29.0.2",
+    "@rollup/plugin-node-resolve": "^15.2.2",
+    "@rollup/plugin-terser": "^1.0.0",
+    "@rollup/plugin-typescript": "^12.1.0",
+    "@tsconfig/node20": "^20.1.2",
+    "@types/node": "~24.1.0",
+    "rollup": "^4.0.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@elgato/streamdeck": "^3.0.4"
+  }
+}

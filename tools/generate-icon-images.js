@@ -1,5 +1,5 @@
 /*
- * Generates the beatgrid icon key images in images/icons/, from the same MDI
+ * Generates the beatgrid icon key images in cloud.rekord.lexicon.sdPlugin/imgs/icons/, from the same MDI
  * icons the beatgrid controls use in Lexicon (see mdi-icons.js).
  *
  * Run with: node tools/generate-icon-images.js
@@ -8,13 +8,13 @@
 const fs = require('fs')
 const path = require('path')
 
-const { MDI_ICONS, MDI_VIEWBOX, ICON_RATIO } = require('../mdi-icons')
+const { MDI_ICONS, MDI_VIEWBOX, ICON_RATIO } = require('../cloud.rekord.lexicon.sdPlugin/ui/mdi-icons')
 const { encodePng, flattenPath, transform, rasterize, hexToRgb } = require('./png')
 
 const SIZES = [{ size: 144, suffix: '' }, { size: 288, suffix: '@2x' }]
 const COLOR = '#ffffff'
 
-const OUTPUT_DIR = path.join(__dirname, '..', 'images', 'icons')
+const OUTPUT_DIR = path.join(__dirname, '..', 'cloud.rekord.lexicon.sdPlugin', 'imgs', 'icons')
 
 fs.mkdirSync(OUTPUT_DIR, { recursive: true })
 

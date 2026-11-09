@@ -1,5 +1,5 @@
 /*
- * Generates the cue marker key images in images/cues/.
+ * Generates the cue marker key images in cloud.rekord.lexicon.sdPlugin/imgs/cues/.
  *
  * The marker matches the cuepoint drawn in the overview waveform
  * (lexicon-shared/src/classes/Waveform/OverviewWaveform.ts drawCuepoints):
@@ -12,12 +12,12 @@
 const fs = require('fs')
 const path = require('path')
 
-const { CUE_COLORS, CUE_MARKER_RATIO } = require('../cue-colors')
+const { CUE_COLORS, CUE_MARKER_RATIO } = require('../cloud.rekord.lexicon.sdPlugin/ui/cue-colors')
 const { encodePng, rasterize, hexToRgb } = require('./png')
 
 const SIZES = [{ size: 144, suffix: '' }, { size: 288, suffix: '@2x' }]
 
-const OUTPUT_DIR = path.join(__dirname, '..', 'images', 'cues')
+const OUTPUT_DIR = path.join(__dirname, '..', 'cloud.rekord.lexicon.sdPlugin', 'imgs', 'cues')
 
 function marker (size) {
   const width = size * CUE_MARKER_RATIO

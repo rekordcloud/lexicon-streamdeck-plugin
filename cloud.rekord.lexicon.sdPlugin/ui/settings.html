@@ -54,6 +54,7 @@
           <option value="Appearance_ZoomIn">Zoom in</option>
           <option value="Appearance_ZoomOut">Zoom out</option>
           <option value="Application_ToggleWindow">Toggle window</option>
+          <option value="Appearance_ZoomReset">Reset zoom</option>
           <option value="Application_Quit">Quit Lexicon</option>
         </optgroup>
         <optgroup label="Navigation">
@@ -62,6 +63,7 @@
           <option value="Navigation_ToggleSidepanel">Toggle sidepanel</option>
           <option value="Navigation_ShowTrackTimeline">Show track timeline</option>
           <option value="Navigation_HideTrackTimeline">Hide track timeline</option>
+          <option value="Navigation_SidebarDashboard">Sidebar: Dashboard</option>
           <option value="Navigation_SidebarTracksAll">Sidebar: All Tracks</option>
           <option value="Navigation_SidebarTracksIncoming">Sidebar: Incoming</option>
           <option value="Navigation_SidebarTracksArchive">Sidebar: Archive</option>
@@ -74,10 +76,12 @@
           <option value="Navigation_SidebarStatistics">Sidebar: Statistics</option>
           <option value="Navigation_SidebarBeatport">Sidebar: Beatport</option>
           <option value="Navigation_FocusPlaylistsFilter">Focus playlists filter</option>
+          <option value="Navigation_SyncMobileApp">Sync Mobile App</option>
         </optgroup>
         <optgroup label="Track Browser">
           <option value="Incoming_SelectedDone">Incoming: Mark selected done</option>
           <option value="Incoming_ForceRefresh">Incoming: Refresh watch folder</option>
+          <option value="Incoming_AllDone">Incoming: Mark all done</option>
           <option value="Navigation_SelectCurrentPlaying">Find currently loaded track</option>
           <option value="Navigation_EditCurrentPlaying">Edit currently loaded track</option>
           <option value="TrackBrowser_FocusFilter_Title">Focus filter: Title</option>
@@ -134,6 +138,15 @@
           <option value="MusicPlayer_FocusBpmField">Focus BPM field</option>
           <option value="MusicPlayer_ClearQueue">Clear queue</option>
           <option value="MusicPlayer_ShuffleQueue">Shuffle queue</option>
+          <option value="MusicPlayer_Seek">Go to position (seconds)</option>
+        </optgroup>
+        <optgroup label="Ghost Curator">
+          <option value="GhostCurator_ToggleFollow">Follow decks</option>
+          <option value="GhostCurator_ToggleOverlay">Show or hide the overlay</option>
+          <option value="GhostCurator_UseSuggestion1">Use suggestion 1 as next track</option>
+          <option value="GhostCurator_UseSuggestion2">Use suggestion 2 as next track</option>
+          <option value="GhostCurator_UseSuggestion3">Use suggestion 3 as next track</option>
+          <option value="GhostCurator_RollDice">Roll the dice</option>
         </optgroup>
         <optgroup label="Cues">
           <option value="MusicPlayer_Cue">Cue</option>
@@ -164,6 +177,7 @@
           <!-- <option value="MusicPlayer_TempomarkerDecreaseBpm">Decrease current marker BPM</option> -->
           <option value="MusicPlayer_ToggleMetronome">Toggle metronome</option>
           <option value="MusicPlayer_TempomarkerTapBpm">Tap BPM</option>
+          <option value="MusicPlayer_MetronomeSettings">Open metronome settings</option>
         </optgroup>
         <optgroup label="Track Jump">
           <option value="MusicPlayer_JumpBeats">Jump forward/backward beats</option>
@@ -187,6 +201,17 @@
           <option value="Playlists_DuplicateAsPlaylist">Duplicate as playlist</option>
           <option value="FavoritePlaylists_ShowPlaylist">Show favorite playlist</option>
           <option value="FavoritePlaylists_AddSelectedTracks">Add selected tracks to fav. playlist</option>
+        </optgroup>
+        <optgroup label="Playlist Tools">
+          <option value="Playlists_Merge">Merge</option>
+          <option value="Playlists_Prefix">Prefix</option>
+          <option value="Playlists_Capitalize">Capitalize</option>
+          <option value="Playlists_CrossReference">Cross Reference</option>
+          <option value="Playlists_SortAZ">Sort (A-Z)</option>
+          <option value="Playlists_SortZA">Sort (Z-A)</option>
+          <option value="Playlists_SortTrackCount">Sort (Track Count)</option>
+          <option value="Playlists_Shuffle">Shuffle Tracks</option>
+          <option value="Playlists_RewriteOrder">Re-write order</option>
         </optgroup>
         <optgroup label="Beatport">
           <option value="Beatport_AddSelectedToCart">Add selected tracks to cart</option>
@@ -279,6 +304,27 @@
         Bottom in the Stream Deck app so the image stays visible.
       </p>
     </details>
+
+    <div type="range" class="sdpi-item">
+      <div class="sdpi-item-label">Lexicon port</div>
+      <div class="sdpi-item-value">
+        <input id="lexiconPortInput" placeholder="48624" type="number" min="1024" max="65535" step="1" onchange="onPortChange()">
+      </div>
+    </div>
+
+    <div class="sdpi-item">
+      <div class="sdpi-item-label">Status</div>
+      <div class="sdpi-item-value" id="lexiconStatus">Press a key to connect to Lexicon.</div>
+    </div>
+
+    <details class="sdpi-item">
+      <summary>Connecting to Lexicon</summary>
+      <p>
+        The first time you press a key, Lexicon asks whether Stream Deck may control it. Click Allow, and
+        the plugin works from then on. Needs Lexicon 1.12 or newer with the Local API switched on under
+        Settings > Local API. Only fill in the port if you changed it there; the port is the same for every key.
+      </p>
+    </details>
   </div>
 
   <script>
@@ -312,10 +358,22 @@
     })()
 
     if ($SD) {
+      // The port and the connection status are global settings, written only by the plugin
+      $SD.on('didReceiveGlobalSettings', function (jsonObj) {
+        const settings = (jsonObj.payload && jsonObj.payload.settings) || {}
+        const portEl = document.querySelector('#lexiconPortInput')
+
+        if (document.activeElement !== portEl) portEl.value = settings.port || ''
+
+        document.querySelector('#lexiconStatus').textContent = settings.status || 'Press a key to connect to Lexicon.'
+      })
+
       $SD.on('connected', function (jsonObj) {
         document.querySelector('#lexiconSettings').classList.remove('sdpi-hidden')
 
         uuid = jsonObj['uuid']
+
+        $SD.api.getGlobalSettings(uuid)
 
         const action = jsonObj.actionInfo.payload.settings.action
         const index = jsonObj.actionInfo.payload.settings.index
@@ -390,6 +448,16 @@
       }
     }
 
+    // Sent to the plugin rather than saved here, so this page never writes back a token the plugin has replaced
+    function onPortChange () {
+      const value = document.querySelector('#lexiconPortInput').value.trim()
+      const port = value === '' ? null : Number(value)
+
+      if (port !== null && !(Number.isInteger(port) && port >= 1024 && port <= 65535)) return
+
+      if ($SD && $SD.connection) $SD.api.sendToPlugin(uuid, pluginAction, { lexiconPort: port })
+    }
+
     function renderOptions (action) {
       if ([
         'MusicPlayer_Hotcue',
@@ -430,7 +498,7 @@
         document.querySelector('#lexiconBeatsRow').classList.add('sdpi-hidden')
       }
 
-      if (['MusicPlayer_JumpSeconds'].includes(action)) {
+      if (['MusicPlayer_JumpSeconds', 'MusicPlayer_Seek'].includes(action)) {
         document.querySelector('#lexiconSecondsRow').classList.remove('sdpi-hidden')
       } else {
         document.querySelector('#lexiconSecondsRow').classList.add('sdpi-hidden')
