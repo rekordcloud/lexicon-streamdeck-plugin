@@ -60,7 +60,8 @@ export function buildControlBody (settings: IKeySettings): { action: string, par
   if (!settings.action) return null
 
   return {
-    action: settings.action,
+    // Direct2CDJ is called DeckConnect from Lexicon 1.12, which only knows the new action names
+    action: settings.action.replace(/^Direct2Cdj_/, 'DeckConnect_'),
     parameters: {
       index: (settings.index || 0) - 1,
       amount: settings.amount,

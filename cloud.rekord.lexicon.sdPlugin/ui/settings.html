@@ -224,9 +224,9 @@
           <option value="Beatport_TabsMyBeatport">Tabs: My Beatport</option>
           <option value="Beatport_TabsMyCart">Tabs: My Cart</option>
         </optgroup>
-        <optgroup label="Direct2CDJ">
-          <option value="Direct2Cdj_LoadDeck">Load selected track to deck</option>
-          <option value="Direct2Cdj_LoadEmptyDeck">Load playing track to empty deck</option>
+        <optgroup label="DeckConnect">
+          <option value="DeckConnect_LoadDeck">Load selected track to deck</option>
+          <option value="DeckConnect_LoadEmptyDeck">Load playing track to empty deck</option>
         </optgroup>
         <optgroup label="Plugins">
           <option value="PluginRunActionByName">Run action</option>
@@ -375,7 +375,8 @@
 
         $SD.api.getGlobalSettings(uuid)
 
-        const action = jsonObj.actionInfo.payload.settings.action
+        // Direct2CDJ is called DeckConnect from Lexicon 1.12, so keys saved before then show the new action
+        const action = (jsonObj.actionInfo.payload.settings.action || '').replace(/^Direct2Cdj_/, 'DeckConnect_') || undefined
         const index = jsonObj.actionInfo.payload.settings.index
         const amount = jsonObj.actionInfo.payload.settings.amount
         const beats = jsonObj.actionInfo.payload.settings.beats
@@ -504,7 +505,7 @@
         document.querySelector('#lexiconSecondsRow').classList.add('sdpi-hidden')
       }
 
-      if (['Direct2Cdj_LoadDeck'].includes(action)) {
+      if (['DeckConnect_LoadDeck'].includes(action)) {
         document.querySelector('#lexiconDeckRow').classList.remove('sdpi-hidden')
       } else {
         document.querySelector('#lexiconDeckRow').classList.add('sdpi-hidden')

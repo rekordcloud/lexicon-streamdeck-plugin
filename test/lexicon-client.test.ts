@@ -51,6 +51,11 @@ describe('buildControlBody', () => {
     assert.equal(body.action, 'MusicPlayer_Seek')
     assert.deepEqual(body.parameters, { index: -1, amount: 2, beats: 16, seconds: 90, deckNumber: 3, color: 'red', pluginName: 'P', pluginActionName: 'A' })
   })
+
+  test('sends keys saved with a Direct2Cdj action as the DeckConnect action', () => {
+    assert.equal(buildControlBody({ action: 'Direct2Cdj_LoadDeck', deckNumber: 2 }).action, 'DeckConnect_LoadDeck')
+    assert.equal(buildControlBody({ action: 'Direct2Cdj_LoadEmptyDeck' }).action, 'DeckConnect_LoadEmptyDeck')
+  })
 })
 
 describe('isValidPort', () => {
